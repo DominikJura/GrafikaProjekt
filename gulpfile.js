@@ -30,3 +30,5 @@ gulp.task('deploy', ['default'], function () {
     return gulp.src('./dist/**/*')
         .pipe(deploy({push: true}));
 });
+
+//test

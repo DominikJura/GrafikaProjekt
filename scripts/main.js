@@ -117,12 +117,12 @@ var Keyboard = function(){
 		radius = 13,
 		segments = 20,
 		rings = 20;
-		mass = 50;
+		mass = 30;
 
 	// Sphere
 	var sphereMaterial = Physijs.createMaterial(new THREE.MeshBasicMaterial({color: color, side: THREE.FrontSide}), 1, 1);
 	var sphereGeometry = new THREE.SphereGeometry(radius, segments, rings)
-    var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('ball.png=',THREE.SphericalRefractionMapping) } );
+    var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('ball.png',THREE.SphericalRefractionMapping) } );
 
 	var sphere = new Physijs.SphereMesh(sphereGeometry, material, mass);
 	sphere.setLinearFactor(new THREE.Vector3( 0, 0, 0 )); // only move on X and Z axis
@@ -130,7 +130,6 @@ var Keyboard = function(){
 	sphere.position.y = 20;
 	sphere.position.z = 250;
 	sphere.position.x = -200;
-	sphere.castShadow = true;
 
 	app.character = sphere;
 	app.scene.add(sphere);
@@ -192,7 +191,10 @@ var Keyboard = function(){
 		sizeZ = 600;
 		sizeY = 10;
 	var planeMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial( {color: groundColor, side: THREE.FrontSide} ), 1,0.5);
-	
+	var gutterMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial( {color: 0x666666, side: THREE.FrontSide} ), 1,0.5);
+    var floorMaterial = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('background.jpg', {}) } );
+    var wallMaterial = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('darkWood.jpg', {}) } );
+
 	var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
     var wallGeometry = new THREE.BoxGeometry( 5, 150, sizeZ, 1,1,1 );
 	var groundGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
@@ -202,15 +204,15 @@ var Keyboard = function(){
 
 	var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
 
-	var wallRight = new Physijs.BoxMesh(wallGeometry, planeMaterial, 0 );
-	var wallLeft = new Physijs.BoxMesh(wallGeometry, planeMaterial, 0 );
-    var wallBack = new Physijs.BoxMesh(wallBackGeometry, planeMaterial, 0 );
-	var ground = new Physijs.BoxMesh(groundGeometry, planeMaterial, 0 );
+	var wallRight = new Physijs.BoxMesh(wallGeometry, wallMaterial, 0 );
+	var wallLeft = new Physijs.BoxMesh(wallGeometry, wallMaterial, 0 );
+    var wallBack = new Physijs.BoxMesh(wallBackGeometry, wallMaterial, 0 );
+	var ground = new Physijs.BoxMesh(groundGeometry, floorMaterial, 0 );
 
-	var rightGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, planeMaterial, 0 );
-	var leftGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, planeMaterial, 0 );
-	var leftGutterWall = new Physijs.BoxMesh(gutterWallGeometry, planeMaterial, 0 );
-	var rightGutterWall = new Physijs.BoxMesh(gutterWallGeometry, planeMaterial, 0 );
+	var rightGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, gutterMaterial, 0 );
+	var leftGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, gutterMaterial, 0 );
+	var leftGutterWall = new Physijs.BoxMesh(gutterWallGeometry, gutterMaterial, 0 );
+	var rightGutterWall = new Physijs.BoxMesh(gutterWallGeometry, gutterMaterial, 0 );
 
 	plane.position.y = -5;
 	plane.position.x = sizeX;
@@ -269,11 +271,11 @@ var Keyboard = function(){
 		boxHeight = 40,
 		boxDepth = 20;
 		offsetX = -200;
-		offsetZ = -200;
+		offsetZ = -250;
 	var boxes = [];
 
 	var boxMaterial = new THREE.MeshLambertMaterial({color: boxColor, side: THREE.FrontSide});
-	var boxGeometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth, 1, 1, 1);
+	var boxGeometry = new THREE.CylinderGeometry(10, 10, 40, 32);
 	
 	for(var i = 0; i < numberOfBoxes; i++) {
 		var box = new Physijs.BoxMesh(boxGeometry, boxMaterial, 25)
@@ -288,9 +290,9 @@ var Keyboard = function(){
 	boxes[0].position.set(0 + offsetX,boxHeight/2,offsetZ);
 	boxes[1].position.set(-30 + offsetX,boxHeight/2,offsetZ);
 	boxes[2].position.set(30 + offsetX,boxHeight/2,offsetZ);
-	boxes[3].position.set(-15 + offsetX,boxHeight/2+boxHeight,offsetZ);
-	boxes[4].position.set(15 + offsetX,boxHeight/2+boxHeight,offsetZ);
-	boxes[5].position.set(0 + offsetX,boxHeight/2+(2*boxHeight),offsetZ);
+	boxes[3].position.set(-15 + offsetX,boxHeight/2,offsetZ + 25);
+	boxes[4].position.set(15 + offsetX,boxHeight/2,offsetZ + 25);
+	boxes[5].position.set(0 + offsetX,boxHeight/2,offsetZ + 50);
 
 	boxes.forEach(function(box){
 		app.scene.add(box);

@@ -2,7 +2,7 @@
 var
 	transferableMessage = self.webkitPostMessage || self.postMessage,
 
-	// enum
+	// enum 2
 	MESSAGE_TYPES = {
 		WORLDREPORT: 0,
 		COLLISIONREPORT: 1,

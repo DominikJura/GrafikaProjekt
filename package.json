@@ -1,5 +1,5 @@
 {
-  "name": "threejsBowlingSample",
+  "name": "Bowling",
   "version": "0.0.0",
   "description": "",
   "main": "main.js",
@@ -8,12 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pwambach/threejs-bowling-sample.git"
   },
   "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/pwambach/threejs-bowling-sample/issues"
   },
   "devDependencies": {
     "gulp": "~3.8.11",
