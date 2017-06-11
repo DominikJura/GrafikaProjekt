@@ -1,3 +1,5 @@
+
+//Kebord Handler
 var Keyboard = function(){
 	var activeKeys = [];
 	var keys = {
@@ -48,7 +50,7 @@ var Keyboard = function(){
 
 	// WebGL Renderer
 	var renderer = new THREE.WebGLRenderer({antialias: true });
-	renderer.setClearColor(0x6faf46, 1);
+	renderer.setClearColor(0x6fafaa, 1);
 	renderer.setSize(WIDTH, HEIGHT);
 	renderer.shadowMapEnabled = true;
 	renderer.shadowMapSoft = true;
@@ -57,14 +59,6 @@ var Keyboard = function(){
 	// Physijs Scene
 	scene = new Physijs.Scene();
 	scene.setGravity(new THREE.Vector3(0,-800,0));
-
-	// Camera
-/*	var perspectiveCamera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-	perspectiveCamera.position.z = 550;
-	perspectiveCamera.position.x = 300;
-	perspectiveCamera.position.y = 250;
-	perspectiveCamera.lookAt(new THREE.Vector3(0,0,0));
-	scene.add(perspectiveCamera);*/
 
 	//Orthographic Camera
 	var aspect = window.innerWidth / window.innerHeight;
@@ -75,28 +69,12 @@ var Keyboard = function(){
 	camera.lookAt( new THREE.Vector3(0,0,0) ); // or the origin
 	scene.add(camera);
 
-/*	var cameraHelper = new THREE.CameraHelper(camera);
-	scene.add(cameraHelper);*/
-
-
 	// Keyboard
 	var kb = new Keyboard();
-
 
 	// Controls
 	var controls = new THREE.OrbitControls(camera);
 	controls.noKeys = true;
-
-
-	/*var spotLight = new THREE.PointLight(0xcccccc);
-    spotLight.position.y = 1000;
-    spotLight.angle = Math.PI/2;
-    spotLight.shadowDarkness = 0.1;
-    scene.add(spotLight);
-
-    var pointLightHelper = new THREE.PointLightHelper(spotLight, 100);
-    scene.add(pointLightHelper);*/
-
 
 	// Render loop
 	function render() {
@@ -108,7 +86,6 @@ var Keyboard = function(){
 	}
 	$container.append(renderer.domElement); 
 	render();
-
 
 	// make app public available
 	var app = {
@@ -133,12 +110,7 @@ var Keyboard = function(){
 })(this);
 
 
-
-
-
-
-
-
+//Ball handler
 (function(){
 
 	var color = 0x61cbe3,
@@ -154,12 +126,11 @@ var Keyboard = function(){
 	var sphere = new Physijs.SphereMesh(sphereGeometry, sphereMaterial, mass);
 	sphere.setLinearFactor(new THREE.Vector3( 0, 0, 0 )); // only move on X and Z axis
 
-	sphere.position.y = 30;
-	sphere.position.z = -200;
-	sphere.position.x = 200;
+	sphere.position.y = 20;
+	sphere.position.z = 250;
+	sphere.position.x = -200;
 	sphere.castShadow = true;
-	//sphere.setDamping(1, 1);
-	
+
 	app.character = sphere;
 	app.scene.add(sphere);
 
@@ -168,61 +139,6 @@ var Keyboard = function(){
 	//character move
 	var preventJump = false;
 	var movePlayer = function() {
-		/*var forceScalar = 200;
-
-		var vector = sphere.position.clone();
-		var length = vector.length() * 1.5;
-		if(length > 500){
-			length = 500;
-		}
-		length = length / 500;
-		length = 1-length;
-
-		vector.negate();
-		vector.normalize();
-		vector.multiplyScalar(forceScalar * length);
-
-		sphere.applyCentralImpulse(vector);
-
-		*/
-
-
-/*	    var speed = 4000;
-	    var force = new THREE.Vector3(0, 0, 0);
-
-	    if (app.keyboard.isUP()) {
-	    	console.log("UP");
-	        force.add(new THREE.Vector3(0, 0, -speed));
-	    }
-	    if (app.keyboard.isDOWN()) {
-	        force.add(new THREE.Vector3(0, 0, speed));
-	    }
-	    if (app.keyboard.isLEFT()) {
-	        force.add(new THREE.Vector3(-speed, 0, 0));
-	    }
-	    if (app.keyboard.isRIGHT()) {
-	        force.add(new THREE.Vector3(speed, 0, 0));
-	    }
-
-	    if (app.keyboard.isSPACE() && !preventJump) {
-	        preventJump = true;
-	        setTimeout(function() {
-	            preventJump = false;
-	        }, 500);
-	        sphere.applyCentralImpulse(new THREE.Vector3(0, speed, 0));
-	    }*/
-
-	    if(sphere.position.y < -50){
-	    	sphere.position.y = 20;
-	    	sphere.position.x = 0;
-	    	sphere.position.z = 200;
-	    	sphere.setLinearVelocity(new THREE.Vector3(0,0,0));
-	    	sphere.setAngularVelocity(new THREE.Vector3(0,0,0));
-	    	sphere.__dirtyPosition = true;
-	    }
-
-	    //sphere.applyCentralForce(force);
-	    //requestAnimationFrame(movePlayer);
 	};
 	movePlayer();
 
@@ -266,6 +182,8 @@ var Keyboard = function(){
     updateStats();
 
 })();
+
+// Scene handler
 (function(){
 
 	// Ground
@@ -275,25 +193,25 @@ var Keyboard = function(){
 		sizeY = 10;
 	var planeMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial( {color: groundColor, side: THREE.FrontSide} ), 1,0.5);
 	
-	// var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
-	// var planeGeometry2 = new THREE.BoxGeometry( sizeX, sizeY, 200, 1,1,1 );
+	var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
+	var planeGeometry2 = new THREE.BoxGeometry( sizeX, sizeY, 200, 1,1,1 );
 	var planeGeometry3 = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
 	
-	// var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
-	// var plane2 = new Physijs.BoxMesh(planeGeometry2, planeMaterial, 0 );
+	var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
+	var plane2 = new Physijs.BoxMesh(planeGeometry2, planeMaterial, 0 );
 	var plane3 = new Physijs.BoxMesh(planeGeometry3, planeMaterial, 0 );
-	// plane.position.y = -5;
-	// plane.position.x = sizeX;
+	plane.position.y = -5;
+	plane.position.x = sizeX;
 
-	// plane2.position.y = -5;
-	// plane2.position.x = 0;
-	// plane2.position.z = 200;
+	plane2.position.y = -5;
+	plane2.position.x = 0;
+	plane2.position.z = 200;
 
 	plane3.position.y = -5;
 	plane3.position.x = -200;
 
-	// plane.receiveShadow = true;
-	// plane2.receiveShadow = true;
+	plane.receiveShadow = true;
+	plane2.receiveShadow = true;
 	plane3.receiveShadow = true;
 	app.ground = plane;
 	// app.scene.add(plane);
@@ -301,6 +219,7 @@ var Keyboard = function(){
 	app.scene.add(plane3);
 
 
+//Bowling Pins
 
 	var makeBorder = function(x, z, w, h)  {
 	    var border = new Physijs.BoxMesh(
@@ -360,6 +279,8 @@ var Keyboard = function(){
 	});
 
 })();
+
+//Mouse shot ball
 (function() {
 
     var impulseScalar = 40;
@@ -453,6 +374,8 @@ var Keyboard = function(){
     drawPowerLine();
 
 })();
+
+//Light
 (function() {
 
     //Ambient Light
@@ -470,29 +393,6 @@ var Keyboard = function(){
     directionalLight.shadowCameraFov = 60;
     app.scene.add( directionalLight );
 
-        //Light Helper
-/*    var directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 10);
-    app.scene.add(directionalLightHelper);*/
-
-    // Point Light
-/*    var spotLight = new THREE.SpotLight(0xcccccc);
-    spotLight.position.y = 550;
-    spotLight.position.x = 200;
-    spotLight.position.z = 200;
-    spotLight.castShadow = true;
-    spotLight.shadowDarkness = 0.4;
-    spotLight.shadowCameraNear = 400;
-    spotLight.shadowCameraFar = 800;
-    spotLight.angle = Math.PI / 2;
-    spotLight.shadowCameraVisible = false;
-    spotLight.shadowCameraFov = 60;
-    app.scene.add(spotLight);*/
-
-    //Light Helper
-/*    var pointLightHelper = new THREE.PointLightHelper(spotLight, 10);
-    app.scene.add(pointLightHelper);*/
-
-
     // Light Move
     var lightMove = 0;
     function moveLight() {
@@ -501,8 +401,6 @@ var Keyboard = function(){
             lightMove = 0;
         }
         spotLight.position.x = Math.sin(lightMove) * 200;
-        //requestAnimationFrame(moveLight);
     }
-    //moveLight();
 
 })();
