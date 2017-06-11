@@ -275,29 +275,29 @@ var Keyboard = function(){
 		sizeY = 10;
 	var planeMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial( {color: groundColor, side: THREE.FrontSide} ), 1,0.5);
 	
-	var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
-	var planeGeometry2 = new THREE.BoxGeometry( sizeX, sizeY, 200, 1,1,1 );
+	// var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
+	// var planeGeometry2 = new THREE.BoxGeometry( sizeX, sizeY, 200, 1,1,1 );
 	var planeGeometry3 = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
 	
-	var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
-	var plane2 = new Physijs.BoxMesh(planeGeometry2, planeMaterial, 0 );
+	// var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
+	// var plane2 = new Physijs.BoxMesh(planeGeometry2, planeMaterial, 0 );
 	var plane3 = new Physijs.BoxMesh(planeGeometry3, planeMaterial, 0 );
-	plane.position.y = -5;
-	plane.position.x = sizeX;
+	// plane.position.y = -5;
+	// plane.position.x = sizeX;
 
-	plane2.position.y = -5;
-	plane2.position.x = 0;
-	plane2.position.z = 200;
+	// plane2.position.y = -5;
+	// plane2.position.x = 0;
+	// plane2.position.z = 200;
 
 	plane3.position.y = -5;
 	plane3.position.x = -200;
 
-	plane.receiveShadow = true;
-	plane2.receiveShadow = true;
+	// plane.receiveShadow = true;
+	// plane2.receiveShadow = true;
 	plane3.receiveShadow = true;
 	app.ground = plane;
-	app.scene.add(plane);
-	app.scene.add(plane2);
+	// app.scene.add(plane);
+	// app.scene.add(plane2);
 	app.scene.add(plane3);
 
 
