@@ -274,8 +274,8 @@ var Keyboard = function(){
 		offsetZ = -250;
 	var boxes = [];
 
-	var boxMaterial = new THREE.MeshLambertMaterial({color: boxColor, side: THREE.FrontSide});
-	var boxGeometry = new THREE.CylinderGeometry(10, 10, 40, 32);
+	var boxGeometry = new THREE.CylinderGeometry(2, 7, 50, 32);
+    var boxMaterial = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('pinTexture.png', {}) } );
 	
 	for(var i = 0; i < numberOfBoxes; i++) {
 		var box = new Physijs.BoxMesh(boxGeometry, boxMaterial, 25)
