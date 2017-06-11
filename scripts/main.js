@@ -281,10 +281,7 @@ var Keyboard = function(){
 		var box = new Physijs.BoxMesh(boxGeometry, boxMaterial, 25)
 		box.castShadow = true;
 		box.receiveShadow = true;
-		box.position.set(0,boxHeight*i+(boxHeight/2), 0);
 		boxes.push(box);
-
-		
 	};
 
 	boxes[0].position.set(0 + offsetX,boxHeight/2,offsetZ);
