@@ -7,7 +7,7 @@ var Keyboard = function(){
 		'LEFT': 75,
 		'RIGHT': 186,
 		'DOWN': 76,
-		'SPACE': 32,
+		'SPACE': 32
 	};
 
 	$('body').on('keydown keyup', function(e){
@@ -122,8 +122,9 @@ var Keyboard = function(){
 	// Sphere
 	var sphereMaterial = Physijs.createMaterial(new THREE.MeshBasicMaterial({color: color, side: THREE.FrontSide}), 1, 1);
 	var sphereGeometry = new THREE.SphereGeometry(radius, segments, rings)
-	
-	var sphere = new Physijs.SphereMesh(sphereGeometry, sphereMaterial, mass);
+    var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('ball.png=',THREE.SphericalRefractionMapping) } );
+
+	var sphere = new Physijs.SphereMesh(sphereGeometry, material, mass);
 	sphere.setLinearFactor(new THREE.Vector3( 0, 0, 0 )); // only move on X and Z axis
 
 	sphere.position.y = 20;
@@ -259,28 +260,6 @@ var Keyboard = function(){
 	app.scene.add(leftGutterBottom);
 	app.scene.add(leftGutterWall);
 	app.scene.add(rightGutterWall);
-
-
-	// var makeBorder = function(x, z, w, h)  {
-	//     var border = new Physijs.BoxMesh(
-	//       new THREE.CubeGeometry(w, 100, h),
-	//       Physijs.createMaterial(
-	//         new THREE.MeshBasicMaterial({color: 0x000000}), 0.2, 1.0
-	//       ),
-	//       0
-	//     );
-	//     border.position.set(x, 50, z);
-	//     border.visible = false;
-	//     return border;
-  	// };
-    //
-  	// app.scene.add(makeBorder(-305, 0, 10, 600));
-  	// app.scene.add(makeBorder(305, 0, 10, 600));
-  	// app.scene.add(makeBorder(95, -100, 10, 400));
-  	// app.scene.add(makeBorder(-95, -100, 10, 400));
-  	// app.scene.add(makeBorder(0, 305, 600, 10));
-  	// app.scene.add(makeBorder(0, 95, 200, 10));
-  	// app.scene.add(makeBorder(0, -305, 600, 10));
 
 
 //Bowling Pins
