@@ -1,5 +1,5 @@
-# threejs-bowling-sample
+# Bowling project 
 
-Demo project of a bowling game using three.js webgl library and physi.js (ammo.js) as physics engine.
+Bowling Project here u can play it, have fun :)
 
 [View Demo](http://SirMinis.github.io/GrafikaProjekt) (Drag the ball)
