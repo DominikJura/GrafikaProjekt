@@ -114,10 +114,10 @@ var Keyboard = function(){
 (function(){
 
 	var color = 0x61cbe3,
-		radius = 15,
-		segments = 24,
-		rings = 24;
-		mass = 10;
+		radius = 13,
+		segments = 20,
+		rings = 20;
+		mass = 50;
 
 	// Sphere
 	var sphereMaterial = Physijs.createMaterial(new THREE.MeshBasicMaterial({color: color, side: THREE.FrontSide}), 1, 1);
@@ -133,8 +133,6 @@ var Keyboard = function(){
 
 	app.character = sphere;
 	app.scene.add(sphere);
-
-
 
 	//character move
 	var preventJump = false;
@@ -188,63 +186,104 @@ var Keyboard = function(){
 
 	// Ground
 	var groundColor = 0xf5ffaf,
-		sizeX = 200,
+		gutterSize = 40;
+		sizeX = 140;
 		sizeZ = 600;
 		sizeY = 10;
 	var planeMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial( {color: groundColor, side: THREE.FrontSide} ), 1,0.5);
 	
 	var planeGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
-	var planeGeometry2 = new THREE.BoxGeometry( sizeX, sizeY, 200, 1,1,1 );
-	var planeGeometry3 = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
-	
+    var wallGeometry = new THREE.BoxGeometry( 5, 150, sizeZ, 1,1,1 );
+	var groundGeometry = new THREE.BoxGeometry( sizeX, sizeY, sizeZ, 1,1,1 );
+	var wallBackGeometry = new THREE.BoxGeometry( 220, 120, 5, 1,1,1 );
+	var gutterBottomGeometry = new THREE.BoxGeometry( gutterSize, 5, sizeZ, 1,1,1 );
+	var gutterWallGeometry = new THREE.BoxGeometry( 5, gutterSize, sizeZ, 1,1,1 );
+
 	var plane = new Physijs.BoxMesh(planeGeometry, planeMaterial, 0 );
-	var plane2 = new Physijs.BoxMesh(planeGeometry2, planeMaterial, 0 );
-	var plane3 = new Physijs.BoxMesh(planeGeometry3, planeMaterial, 0 );
+
+	var wallRight = new Physijs.BoxMesh(wallGeometry, planeMaterial, 0 );
+	var wallLeft = new Physijs.BoxMesh(wallGeometry, planeMaterial, 0 );
+    var wallBack = new Physijs.BoxMesh(wallBackGeometry, planeMaterial, 0 );
+	var ground = new Physijs.BoxMesh(groundGeometry, planeMaterial, 0 );
+
+	var rightGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, planeMaterial, 0 );
+	var leftGutterBottom = new Physijs.BoxMesh(gutterBottomGeometry, planeMaterial, 0 );
+	var leftGutterWall = new Physijs.BoxMesh(gutterWallGeometry, planeMaterial, 0 );
+	var rightGutterWall = new Physijs.BoxMesh(gutterWallGeometry, planeMaterial, 0 );
+
 	plane.position.y = -5;
 	plane.position.x = sizeX;
 
-	plane2.position.y = -5;
-	plane2.position.x = 0;
-	plane2.position.z = 200;
+	ground.position.y = -5;
+	ground.position.x = -200;
 
-	plane3.position.y = -5;
-	plane3.position.x = -200;
+    wallRight.position.y = 35;
+    wallRight.position.x = -90;
+    wallRight.position.z = 0;
+
+    wallLeft.position.y = 35;
+    wallLeft.position.x = -310;
+    wallLeft.position.z = 0;
+
+    wallBack.position.y = 50;
+    wallBack.position.x = -200;
+    wallBack.position.z = -300;
+
+	rightGutterBottom.position.y = -40;
+    rightGutterBottom.position.x = -110;
+    rightGutterBottom.position.z = 0;
+
+    leftGutterBottom.position.y = -40;
+    leftGutterBottom.position.x = -290;
+    leftGutterBottom.position.z = 0;
+
+    leftGutterWall.position.y = -20;
+    leftGutterWall.position.x = -270;
+    leftGutterWall.position.z = 0;
+
+    rightGutterWall.position.y = -20;
+    rightGutterWall.position.x = -130;
+    rightGutterWall.position.z = 0;
 
 	plane.receiveShadow = true;
-	plane2.receiveShadow = true;
-	plane3.receiveShadow = true;
+	ground.receiveShadow = true;
+
 	app.ground = plane;
-	// app.scene.add(plane);
-	// app.scene.add(plane2);
-	app.scene.add(plane3);
+
+    app.scene.add(ground);
+	app.scene.add(wallRight);
+	app.scene.add(wallBack);
+	app.scene.add(wallLeft);
+
+	app.scene.add(rightGutterBottom);
+	app.scene.add(leftGutterBottom);
+	app.scene.add(leftGutterWall);
+	app.scene.add(rightGutterWall);
+
+
+	// var makeBorder = function(x, z, w, h)  {
+	//     var border = new Physijs.BoxMesh(
+	//       new THREE.CubeGeometry(w, 100, h),
+	//       Physijs.createMaterial(
+	//         new THREE.MeshBasicMaterial({color: 0x000000}), 0.2, 1.0
+	//       ),
+	//       0
+	//     );
+	//     border.position.set(x, 50, z);
+	//     border.visible = false;
+	//     return border;
+  	// };
+    //
+  	// app.scene.add(makeBorder(-305, 0, 10, 600));
+  	// app.scene.add(makeBorder(305, 0, 10, 600));
+  	// app.scene.add(makeBorder(95, -100, 10, 400));
+  	// app.scene.add(makeBorder(-95, -100, 10, 400));
+  	// app.scene.add(makeBorder(0, 305, 600, 10));
+  	// app.scene.add(makeBorder(0, 95, 200, 10));
+  	// app.scene.add(makeBorder(0, -305, 600, 10));
 
 
 //Bowling Pins
-
-	var makeBorder = function(x, z, w, h)  {
-	    var border = new Physijs.BoxMesh(
-	      new THREE.CubeGeometry(w, 100, h),
-	      Physijs.createMaterial(
-	        new THREE.MeshBasicMaterial({color: 0x000000}), 0.2, 1.0    
-	      ),
-	      0 
-	    );
-	    border.position.set(x, 50, z);
-	    border.visible = false;
-	    return border;
-  	};
-
-  	app.scene.add(makeBorder(-305, 0, 10, 600));
-  	app.scene.add(makeBorder(305, 0, 10, 600));
-  	app.scene.add(makeBorder(95, -100, 10, 400));
-  	app.scene.add(makeBorder(-95, -100, 10, 400));
-  	app.scene.add(makeBorder(0, 305, 600, 10));
-  	app.scene.add(makeBorder(0, 95, 200, 10));
-  	app.scene.add(makeBorder(0, -305, 600, 10));
-
-
-
-	// Boxes
 	var boxColor = 0xe6f2e5,
 		numberOfBoxes = 6,
 		boxWidth = 20,
